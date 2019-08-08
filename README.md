@@ -11,4 +11,5 @@ Currently, functionality is limited. Functions are seperated into protocols, whi
 are less system dependent.
 
 -Bustime Protocol: functions that estimate the number of minutes until the next bus reaches the desired stop.
+
 -Wolf Protocol: uses the Wolfram Alpha API to calculate or get information on basically anything.
