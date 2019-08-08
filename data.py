@@ -92,7 +92,11 @@ def get_truetime_school_outbound():
 
 def get_information(input):
     w_a_id = str(os.environ['w_a_id'])
-    
     w_a_client = wolframalpha.Client(w_a_id)
-    res = w_a_client.query(str(input))
+
+    try:
+        res = w_a_client.query(str(input))
+    except:
+        res = "I didn't quite catch that."
+
     return (next(res.results).text)
