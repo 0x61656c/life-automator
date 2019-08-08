@@ -45,7 +45,7 @@ def truetime_home_outbound():
 
 @app.route('/get_info', methods = ["POST"])
 def get_info():
-    _input = flask.request.args["input"]
+    _input = flask.request.form["input"]
     _data = data.get_information(_input)
     response = {
         "connection" : "Success",
