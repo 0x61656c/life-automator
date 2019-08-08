@@ -43,6 +43,16 @@ def truetime_home_outbound():
     }
     return flask.jsonify(response)
 
+@app.route('/get_info', methods = ["POST"])
+def get_info():
+    _input = flask.request.args["input"]
+    _data = data.get_information(_input)
+    response = {
+        "connection" : "Success",
+        "response" : str(_data)
+    }
+    return flask.jsonify(response)
+
 def main():
     app.run(debug = True)
 

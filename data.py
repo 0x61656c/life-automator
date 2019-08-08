@@ -1,6 +1,7 @@
 import urllib.request
 import json
 import os
+import wolframalpha
 
 
 pa_api_key = 'key=' + str(os.environ['port_auth_api_key'])
@@ -18,7 +19,8 @@ pa_rt_id = {
 
 pa_stp_id = {
     'home-inbound' : '&stpid=10919',
-    'home-ountbound' : '&stpid=10953'
+    'home-outbound' : '&stpid=10953',
+    'school-outbound' : '&stpid=7117'
 }
 
 pa_bus_feed_id = '&rtpidatafeed=Port%20Authority%20Bus'
@@ -64,3 +66,33 @@ def get_truetime_home_outbound():
         ['bustime-response']['prd'][0]['prdctdn'])
     
     return _response
+
+def get_truetime_school_outbound():
+    _data = [(truetime(pa_base_url, 
+        pa_api_key, 
+        pa_rt_id['61D'], 
+        pa_stp_id['school-outbound'], 
+        pa_bus_feed_id, 
+        pa_formats['json'])\
+        ['bustime-response']['prd'][0]['prdctdn']),
+        (truetime(pa_base_url, 
+        pa_api_key, 
+        pa_rt_id['61C'], 
+        pa_stp_id['school-ountbound'], 
+        pa_bus_feed_id, 
+        pa_formats['json'])\
+        ['bustime-response']['prd'][0]['prdctdn'])]
+
+    if str(_data[0]) == 'DUE' or str(_data[1]) == 'DUE':
+        _response = 'DUE'
+
+    _response = str(min(_data))
+    
+    return _response
+
+def get_information(input):
+    w_a_id = str(os.environ['w_a_id'])
+    
+    w_a_client = wolframalpha.Client(w_a_id)
+    res = w_a_client.query(str(input))
+    return (next(res.results).text)
